@@ -9,7 +9,7 @@ import {
   useForgotPasswordMutation,
   useLogoutMutation,
 } from "../generated/graphql";
-import { createUrqlClient } from "../utils/create-urql-client";
+import { createUrqlClient } from "../utils/createUrqlClient";
 
 const ForgotPassword: React.FC<{}> = ({}) => {
   const [complete, setComplete] = useState(false);

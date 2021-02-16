@@ -8,7 +8,7 @@ import { toErrorMap } from "../utils/toErrorMap";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
 import { withUrqlClient } from "next-urql";
-import { createUrqlClient } from "../utils/create-urql-client";
+import { createUrqlClient } from "../utils/createUrqlClient";
 
 const Login: React.FC<{}> = ({}) => {
   const router = useRouter();
@@ -23,8 +23,12 @@ const Login: React.FC<{}> = ({}) => {
           if (response.data?.login.errors) {
             setErrors(toErrorMap(response.data.login.errors));
           } else if (response.data?.login.user) {
-            // worked
-            router.push("/");
+            if (typeof router.query.next === "string") {
+              router.push(router.query.next);
+            } else {
+              // worked
+              router.push("/");
+            }
           }
         }}
       >

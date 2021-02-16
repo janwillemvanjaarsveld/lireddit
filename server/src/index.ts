@@ -14,17 +14,24 @@ import cors from 'cors';
 import { createConnection } from 'typeorm';
 import { Post } from './entities/Post';
 import { User } from './entities/User';
+import path from 'path';
+import { Updoot } from './entities/Updoot';
 
 const main = async () => {
-    await createConnection({
+    const conn = await createConnection({
         type: 'postgres',
         database: 'newlireddit',
         username: 'postgres',
         password: 'secret',
         logging: true,
         synchronize: true, // handles the creation of new table
-        entities: [Post, User],
+        migrations: [path.join(__dirname, './migrations', '*')],
+        entities: [Post, User, Updoot],
     });
+    await conn.runMigrations();
+
+    // delete all posts
+    // await Post.delete({});
 
     const app = express();
 
