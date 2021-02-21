@@ -20,7 +20,7 @@ import { Updoot } from './entities/Updoot';
 const main = async () => {
     const conn = await createConnection({
         type: 'postgres',
-        database: 'newlireddit',
+        database: 'lireddit',
         username: 'postgres',
         password: 'secret',
         logging: true,
