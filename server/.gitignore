@@ -3,3 +3,6 @@
 # dependencies
 /node_modules
 /dist
+
+# Should be ignored
+# .env

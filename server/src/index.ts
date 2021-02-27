@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import 'dotenv-safe/config';
 import { COOKIE_NAME, __prod__ } from './constants';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
@@ -22,11 +23,9 @@ import { createUpdootLoader } from './utils/createUpdootLoader';
 const main = async () => {
     const conn = await createConnection({
         type: 'postgres',
-        database: 'lireddit',
-        username: 'postgres',
-        password: 'secret',
+        url: process.env.DATABASE_URL,
         logging: true,
-        synchronize: true, // handles the creation of new table
+        synchronize: false, // handles the creation of new table
         migrations: [path.join(__dirname, './migrations', '*')],
         entities: [Post, User, Updoot],
     });
@@ -38,12 +37,13 @@ const main = async () => {
     const app = express();
 
     let RedisStore = connectRedis(session);
-    let redis = new Redis();
+    let redis = new Redis(process.env.REDIS_URL);
+    app.set('trust proxy', 1);
 
     app.use(
         cors({
             credentials: true,
-            origin: 'http://localhost:3000',
+            origin: process.env.CORS_ORIGIN,
         })
     );
 
@@ -59,8 +59,11 @@ const main = async () => {
                 httpOnly: true,
                 sameSite: 'lax', // csrf
                 secure: __prod__, // cookie only works in https
+
+                // if errors with cookies
+                // domain: __prod__ ? '.domain.com' : undefined
             },
-            secret: 'dfaDSAF321fAR23af3AF311s',
+            secret: process.env.SESSION_SECRET,
             resave: false,
             saveUninitialized: false,
         })
@@ -85,7 +88,7 @@ const main = async () => {
         cors: false,
     });
 
-    app.listen(4000, () => {
+    app.listen(parseInt(process.env.PORT), () => {
         console.log('server started on localhost:4000');
     });
 };

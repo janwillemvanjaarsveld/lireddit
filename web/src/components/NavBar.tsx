@@ -3,21 +3,22 @@ import React from 'react';
 import NextLink from 'next/link';
 import { useLogoutMutation, useMeQuery } from '../generated/graphql';
 import { isServer } from '../utils/isServer';
-import { useRouter } from 'next/router';
+import Image from 'next/image';
+import { useApolloClient } from '@apollo/client';
 
 interface NavBarProps {}
 
 export const NavBar: React.FC<NavBarProps> = ({}) => {
-    const router = useRouter();
-    const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
-    const [{ data, fetching }] = useMeQuery({
-        pause: isServer(),
+    const [logout, { loading: logoutFetching }] = useLogoutMutation();
+    const apolloClient = useApolloClient();
+    const { data, loading } = useMeQuery({
+        skip: isServer(),
     });
 
     let body = null;
 
     // data is loading
-    if (fetching) {
+    if (loading) {
         // user not logged in
     } else if (!data?.me) {
         body = (
@@ -43,7 +44,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
                 <Button
                     onClick={async () => {
                         await logout();
-                        router.reload();
+                        await apolloClient.resetStore();
                     }}
                     isLoading={logoutFetching}
                     variant="link"
@@ -54,13 +55,28 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
         );
     }
     return (
-        <Flex zIndex={1} position="sticky" top={0} bg="tan" p={4}>
-            <Flex m="auto" flex={1} maxW={800} align="center">
+        <Flex
+            zIndex={1}
+            position="sticky"
+            top={0}
+            bg="white"
+            p={4}
+            height="fit-content"
+        >
+            <Flex>
                 <NextLink href="/">
                     <Link>
-                        <Heading>LiReddit</Heading>
+                        <Image
+                            src="/logo.png"
+                            alt="XFour logo"
+                            height="100px"
+                            width="400px"
+                        />
                     </Link>
                 </NextLink>
+            </Flex>
+            <Flex m="auto" flex={1} maxW={800} align="center">
+                <Heading>Internal Job Hub</Heading>
                 <Box ml="auto">{body}</Box>
             </Flex>
         </Flex>
