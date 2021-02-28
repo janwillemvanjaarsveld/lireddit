@@ -20,6 +20,7 @@ ENV NODE_ENV production
 
 EXPOSE 3000
 
-USER node
+# Setting user here to node creates permission issues for the public/logo.png
+# USER node
 
 CMD ["yarn", "start"]
