@@ -9,6 +9,16 @@ export const validateRegister = (options: UsernamePasswordInput) => {
             },
         ];
     }
+    // Only allow @xfour.co.za email addresses
+    if (!options.email.endsWith('@xfour.co.za')) {
+        return [
+            {
+                field: 'email',
+                message:
+                    'invalid email: only "@xfour.co.za" domain addresses are allowed',
+            },
+        ];
+    }
 
     if (options.username.length <= 2) {
         return [

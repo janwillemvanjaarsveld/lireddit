@@ -50,8 +50,8 @@ const Index = () => {
                             >
                                 <Box flex={1}>
                                     <NextLink
-                                        href="/post/[id]"
-                                        as={`/post/${p.id}`}
+                                        href="/position/[id]"
+                                        as={`/position/${p.id}`}
                                     >
                                         <Link>
                                             <Heading fontSize="xl">
@@ -78,9 +78,8 @@ const Index = () => {
                                                             title: p.title,
                                                         }}
                                                         user={{
-                                                            username:
-                                                                meData.me
-                                                                    .username,
+                                                            name:
+                                                                meData.me.name,
                                                         }}
                                                     />
                                                 )

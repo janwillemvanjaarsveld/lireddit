@@ -36,6 +36,7 @@ export type User = {
   id: Scalars['Float'];
   username: Scalars['String'];
   email: Scalars['String'];
+  name: Scalars['String'];
   isAdmin: Scalars['Boolean'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
@@ -143,10 +144,11 @@ export type UsernamePasswordInput = {
   username: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type UserApplyPostInput = {
-  username: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type ApplyPostInput = {
@@ -175,7 +177,7 @@ export type RegularErrorFragment = (
 
 export type RegularUserFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'username' | 'isAdmin'>
+  & Pick<User, 'id' | 'username' | 'isAdmin' | 'name'>
 );
 
 export type RegularUserResponseFragment = (
@@ -381,6 +383,7 @@ export const RegularUserFragmentDoc = gql`
   id
   username
   isAdmin
+  name
 }
     `;
 export const RegularUserResponseFragmentDoc = gql`

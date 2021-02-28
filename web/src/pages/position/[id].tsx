@@ -41,7 +41,7 @@ const Post = ({}) => {
                 ) : (
                     <ApplyButton
                         post={{ id, title }}
-                        user={{ username: meData.me.username }}
+                        user={{ name: meData.me.name }}
                     />
                 )
             ) : null}

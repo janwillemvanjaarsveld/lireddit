@@ -30,6 +30,10 @@ export class User extends BaseEntity {
     password!: string;
 
     @Field()
+    @Column()
+    name!: string;
+
+    @Field()
     @Column({ nullable: false })
     isAdmin!: boolean;
 

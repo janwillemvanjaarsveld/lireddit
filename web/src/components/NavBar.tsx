@@ -38,13 +38,13 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
         body = (
             <Flex align="center">
                 {data?.me.isAdmin ? (
-                    <NextLink href="/create-post">
-                        <Button as={Link} mr={4}>
-                            create post
+                    <NextLink href="/create-position">
+                        <Button as={Link} mr={4} colorScheme="linkedin">
+                            create position
                         </Button>
                     </NextLink>
                 ) : null}
-                <Box mr={2}>Welcome {data.me.username}</Box>
+                <Box mr={2}>Welcome {data.me.name}</Box>
                 <Button
                     onClick={async () => {
                         await logout();

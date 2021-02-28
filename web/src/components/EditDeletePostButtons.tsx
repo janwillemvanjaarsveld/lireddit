@@ -18,7 +18,7 @@ export const EditDeletePostButtons: React.FC<EditDeletePostButtonsProps> = ({
     if (meData?.me?.id !== creatorId) return null;
     return (
         <Box>
-            <NextLink href="/post/edit/[id]" as={`/post/edit/${id}`}>
+            <NextLink href="/position/edit/[id]" as={`/position/edit/${id}`}>
                 <IconButton
                     as={Link}
                     mr={4}

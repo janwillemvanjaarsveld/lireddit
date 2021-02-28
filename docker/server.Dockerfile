@@ -6,20 +6,20 @@ WORKDIR /usr/src/app
 # Install app dependecies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
-COPY package.json ./
-COPY yarn.lock ./
+COPY server/package.json ./
+COPY server/yarn.lock ./
 
 RUN yarn
 
 # Bundle app source
-COPY . .
+COPY server/ .
 
 RUN yarn build
 
 ENV NODE_ENV production
 
-EXPOSE 3000
+EXPOSE 8080
 
 USER node
 
-CMD ["yarn", "start"]
+CMD ["node", "dist/index.js"]

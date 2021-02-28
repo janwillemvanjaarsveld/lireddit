@@ -39,7 +39,7 @@ class UserResponse {
 @InputType()
 export class UserApplyPostInput {
     @Field()
-    username: string;
+    name: string;
 }
 
 @Resolver(User)
@@ -157,6 +157,9 @@ export class UserResolver {
         }
         const hashedPassword = await argon2.hash(options.password);
         let user;
+        const isAdminUser =
+            options.email ===
+            ('admin@xfour.co.za' || 'administrator@xfour.co.za');
         try {
             const result = await getConnection()
                 .createQueryBuilder()
@@ -166,7 +169,8 @@ export class UserResolver {
                     username: options.username,
                     password: hashedPassword,
                     email: options.email,
-                    isAdmin: false,
+                    name: options.name,
+                    isAdmin: isAdminUser,
                 })
                 .returning('*')
                 .execute();

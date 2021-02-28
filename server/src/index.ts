@@ -23,7 +23,7 @@ const main = async () => {
     const conn = await createConnection({
         type: 'postgres',
         url: process.env.DATABASE_URL,
-        logging: true,
+        logging: false,
         synchronize: false, // handles the creation of new table
         migrations: [path.join(__dirname, './migrations', '*')],
         entities: [Post, User, Updoot],
