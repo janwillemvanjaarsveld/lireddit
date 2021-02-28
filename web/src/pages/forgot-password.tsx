@@ -1,4 +1,4 @@
-import { Box, Button, useProps } from '@chakra-ui/react';
+import { Box, Button } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import React, { useState } from 'react';
 import { InputField } from '../components/InputField';

@@ -1,11 +1,11 @@
+import { useApolloClient } from '@apollo/client';
 import { Box, Button, Flex, Heading, Link } from '@chakra-ui/react';
-import React from 'react';
+import Image from 'next/image';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
 import { useLogoutMutation, useMeQuery } from '../generated/graphql';
 import { isServer } from '../utils/isServer';
-import Image from 'next/image';
-import { useApolloClient } from '@apollo/client';
-import { useRouter } from 'next/router';
 
 interface NavBarProps {}
 

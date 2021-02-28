@@ -4,7 +4,7 @@
     "port": 5432,
     "username": "postgres",
     "password": "secret",
-    "database": "lireddit2",
+    "database": "career_hub",
     "entities": [
         "dist/entities/*.js"
     ],

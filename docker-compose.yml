@@ -1,0 +1,40 @@
+version: "3.5"
+services:
+  pgdb:
+    container_name: "postgres_container"
+    build:
+      context: ./server/Docker
+      dockerfile: db.Dockerfile
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret
+    ports:
+      - "5432:5432"
+  redis:
+    container_name: "career-redis"
+    image: redis
+    ports:
+      - "6379:6379"
+  server:
+    container_name: "career_hub_server"
+    build:
+      context: ./server
+      dockerfile: Docker/Dockerfile
+    environment:
+      - PORT=4000
+      - DATABASE_URL=postgresql://postgres:secret@pgdb:5432/career_hub
+      - REDIS_URL=redis:6379
+    ports:
+      - "4000:4000"
+    depends_on:
+      - pgdb
+      - redis
+  web:
+    container_name: "career_hub_web"
+    build:
+      context: ./web
+      dockerfile: Docker/Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server

@@ -1,5 +1,5 @@
 import { ApolloCache } from '@apollo/client';
-import { ChevronUpIcon, ChevronDownIcon } from '@chakra-ui/icons';
+import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { Flex, IconButton } from '@chakra-ui/react';
 import gql from 'graphql-tag';
 import React, { useState } from 'react';
