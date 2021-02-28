@@ -5,10 +5,12 @@ import { useLogoutMutation, useMeQuery } from '../generated/graphql';
 import { isServer } from '../utils/isServer';
 import Image from 'next/image';
 import { useApolloClient } from '@apollo/client';
+import { useRouter } from 'next/router';
 
 interface NavBarProps {}
 
 export const NavBar: React.FC<NavBarProps> = ({}) => {
+    const router = useRouter();
     const [logout, { loading: logoutFetching }] = useLogoutMutation();
     const apolloClient = useApolloClient();
     const { data, loading } = useMeQuery({
@@ -35,16 +37,19 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
     } else {
         body = (
             <Flex align="center">
-                <NextLink href="/create-post">
-                    <Button as={Link} mr={4}>
-                        create post
-                    </Button>
-                </NextLink>
+                {data?.me.isAdmin ? (
+                    <NextLink href="/create-post">
+                        <Button as={Link} mr={4}>
+                            create post
+                        </Button>
+                    </NextLink>
+                ) : null}
                 <Box mr={2}>Welcome {data.me.username}</Box>
                 <Button
                     onClick={async () => {
                         await logout();
                         await apolloClient.resetStore();
+                        router.push('/');
                     }}
                     isLoading={logoutFetching}
                     variant="link"
@@ -62,6 +67,8 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
             bg="white"
             p={4}
             height="fit-content"
+            color="white"
+            backgroundColor="navy"
         >
             <Flex>
                 <NextLink href="/">
@@ -76,7 +83,9 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
                 </NextLink>
             </Flex>
             <Flex m="auto" flex={1} maxW={800} align="center">
-                <Heading>Internal Job Hub</Heading>
+                <Heading fontWeight="bold" fontFamily="body">
+                    Career Hub
+                </Heading>
                 <Box ml="auto">{body}</Box>
             </Flex>
         </Flex>

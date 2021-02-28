@@ -4,6 +4,7 @@ import {
     Ctx,
     Field,
     FieldResolver,
+    InputType,
     Mutation,
     ObjectType,
     Query,
@@ -33,6 +34,12 @@ class UserResponse {
     errors?: FieldError[];
     @Field(() => User, { nullable: true })
     user?: User;
+}
+
+@InputType()
+export class UserApplyPostInput {
+    @Field()
+    username: string;
 }
 
 @Resolver(User)
@@ -99,6 +106,7 @@ export class UserResolver {
 
         // login user after change password
         req.session.userId = user.id;
+        req.session.username = user.username;
 
         return { user };
     }
@@ -158,6 +166,7 @@ export class UserResolver {
                     username: options.username,
                     password: hashedPassword,
                     email: options.email,
+                    isAdmin: false,
                 })
                 .returning('*')
                 .execute();
@@ -178,6 +187,7 @@ export class UserResolver {
 
         // Set the userId to login user after registration
         req.session.userId = user.id;
+        req.session.username = user.username;
 
         return {
             user,

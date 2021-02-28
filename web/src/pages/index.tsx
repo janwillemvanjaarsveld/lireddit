@@ -9,10 +9,10 @@ import {
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import React from 'react';
+import { ApplyButton } from '../components/ApplyButton';
 import { EditDeletePostButtons } from '../components/EditDeletePostButtons';
 import { Layout } from '../components/Layout';
-import { UpdootSection } from '../components/UpdootSection';
-import { usePostsQuery } from '../generated/graphql';
+import { useMeQuery, usePostsQuery } from '../generated/graphql';
 import { withApollo } from '../utils/withApollo';
 
 const Index = () => {
@@ -23,11 +23,12 @@ const Index = () => {
         },
         notifyOnNetworkStatusChange: true,
     });
+    const { data: meData } = useMeQuery();
 
     if (!loading && !data) {
         return (
             <div>
-                <div>you got query failed for some reason</div>;
+                <div>An error occured while loading the data</div>;
                 <div>{error?.message}</div>
             </div>
         );
@@ -47,7 +48,6 @@ const Index = () => {
                                 shadow="md"
                                 borderWidth="1px"
                             >
-                                <UpdootSection post={p} />
                                 <Box flex={1}>
                                     <NextLink
                                         href="/post/[id]"
@@ -59,16 +59,32 @@ const Index = () => {
                                             </Heading>
                                         </Link>
                                     </NextLink>
-                                    <Text>posted by {p.creator.username}</Text>
                                     <Flex align="center">
                                         <Text flex={1} mt={4}>
                                             {p.textSnippet}...
                                         </Text>
                                         <Box ml="auto">
-                                            <EditDeletePostButtons
-                                                id={p.id}
-                                                creatorId={p.creator.id}
-                                            />
+                                            {/* Cannot apply for a job if you are not logged in */}
+                                            {meData?.me ? (
+                                                meData?.me?.isAdmin ? (
+                                                    <EditDeletePostButtons
+                                                        id={p.id}
+                                                        creatorId={p.creator.id}
+                                                    />
+                                                ) : (
+                                                    <ApplyButton
+                                                        post={{
+                                                            id: p.id,
+                                                            title: p.title,
+                                                        }}
+                                                        user={{
+                                                            username:
+                                                                meData.me
+                                                                    .username,
+                                                        }}
+                                                    />
+                                                )
+                                            ) : null}
                                         </Box>
                                     </Flex>
                                 </Box>
@@ -89,29 +105,6 @@ const Index = () => {
                                             data.posts.posts.length - 1
                                         ].createdAt,
                                 },
-                                // updateQuery: (
-                                //     previousValue,
-                                //     { fetchMoreResult }
-                                // ): PostsQuery => {
-                                //     if (!fetchMoreResult) {
-                                //         return previousValue as PostsQuery;
-                                //     }
-
-                                //     return {
-                                //         __typename: 'Query',
-                                //         posts: {
-                                //             __typename: 'Page',
-                                //             hasMore: (fetchMoreResult as PostsQuery)
-                                //                 .posts.hasMore,
-                                //             posts: [
-                                //                 ...(previousValue as PostsQuery)
-                                //                     .posts.posts,
-                                //                 ...(fetchMoreResult as PostsQuery)
-                                //                     .posts.posts,
-                                //             ],
-                                //         },
-                                //     };
-                                // },
                             });
                         }}
                         isLoading={loading}

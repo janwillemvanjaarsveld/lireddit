@@ -1,0 +1,3 @@
+mutation Apply($user: UserApplyPostInput!, $post: ApplyPostInput!) {
+    apply(user: $user, post: $post)
+}

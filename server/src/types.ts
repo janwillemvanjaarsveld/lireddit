@@ -7,7 +7,9 @@ import { createUserLoader } from './utils/createUserLoader';
 export type MyContext = {
     req: Request & {
         session: Session &
-            Partial<SessionData> & { userId?: number } & { creatorId?: number };
+            Partial<SessionData> & { userId?: number } & {
+                creatorId?: number;
+            } & { username?: string };
     };
     res: Response;
     redis: Redis;

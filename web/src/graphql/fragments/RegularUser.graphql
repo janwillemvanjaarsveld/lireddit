@@ -1,4 +1,5 @@
-fragment RegularError on FieldError {
-  field
-  message
+fragment RegularUser on User {
+    id
+    username
+    isAdmin
 }

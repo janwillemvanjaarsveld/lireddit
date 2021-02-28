@@ -18,6 +18,8 @@ import { isAuth } from '../middleware/isAuth';
 import { getConnection } from 'typeorm';
 import { Updoot } from '../entities/Updoot';
 import { User } from '../entities/User';
+import { sendEmail } from '../utils/sendEmail';
+import { UserApplyPostInput } from './user';
 
 @InputType()
 class PostInput {
@@ -25,6 +27,14 @@ class PostInput {
     title: string;
     @Field()
     text: string;
+}
+
+@InputType()
+class ApplyPostInput {
+    @Field(() => Int)
+    id: number;
+    @Field()
+    title: string;
 }
 
 @ObjectType()
@@ -58,6 +68,21 @@ export class PostResolver {
             userId: req.session.userId,
         });
         return updoot ? updoot.value : null;
+    }
+
+    @Mutation(() => Boolean)
+    apply(
+        @Arg('post') post: ApplyPostInput,
+        @Arg('user') user: UserApplyPostInput
+    ) {
+        sendEmail(
+            'hr@xfour.co.za',
+            `<h4>Dear XFour HR</h4>
+                <p>An application has been submitted by <strong>${user.username}</strong> for the position of <strong><a href="http://localhost:3000/post/${post.id}">${post.title}</a></strong>.</p>
+                <p>Regards,</p>
+                <p>Internal Job Hub</p>`
+        );
+        return true;
     }
 
     @Mutation(() => Boolean)
@@ -195,16 +220,6 @@ export class PostResolver {
         @Arg('id', () => Int) id: number,
         @Ctx() { req }: MyContext
     ): Promise<boolean> {
-        // not cascade way
-        // const post = await Post.findOne(id);
-        // if (!post) {
-        //     return false;
-        // }
-        // if (post.creatorId !== req.session.userId) {
-        //     throw new Error('not authorized');
-        // }
-        // await Updoot.delete({ postId: id });
-
         await Post.delete({ id, creatorId: req.session.userId });
         return true;
     }

@@ -4,7 +4,6 @@ import { COOKIE_NAME, __prod__ } from './constants';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
-import { HelloResolver } from './resolvers/hello';
 import { PostResolver } from './resolvers/post';
 import { UserResolver } from './resolvers/user';
 import Redis from 'ioredis';
@@ -71,7 +70,7 @@ const main = async () => {
 
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
-            resolvers: [HelloResolver, PostResolver, UserResolver],
+            resolvers: [PostResolver, UserResolver],
             validate: false,
         }),
         context: ({ req, res }): MyContext => ({
@@ -88,8 +87,10 @@ const main = async () => {
         cors: false,
     });
 
-    app.listen(parseInt(process.env.PORT), () => {
-        console.log('server started on localhost:4000');
+    const port = parseInt(process.env.PORT) || 4000;
+
+    app.listen(port, () => {
+        console.log(`server started on localhost:${port}`);
     });
 };
 
