@@ -3,7 +3,7 @@ services:
   pgdb:
     container_name: "postgres_container"
     build:
-      context: ./Docker
+      context: ./docker
       dockerfile: db.Dockerfile
     environment:
       - POSTGRES_USER=postgres
@@ -19,7 +19,7 @@ services:
     container_name: "career_hub_server"
     build:
       context: .
-      dockerfile: Docker/server.Dockerfile
+      dockerfile: docker/server.Dockerfile
     environment:
       - PORT=4000
       - DATABASE_URL=postgresql://postgres:secret@pgdb:5432/career_hub
@@ -33,7 +33,7 @@ services:
     container_name: "career_hub_web"
     build:
       context: .
-      dockerfile: Docker/web.Dockerfile
+      dockerfile: docker/web.Dockerfile
     ports:
       - "3000:3000"
     depends_on:
