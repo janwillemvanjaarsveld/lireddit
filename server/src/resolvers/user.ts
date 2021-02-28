@@ -133,6 +133,7 @@ export class UserResolver {
 
         sendEmail(
             email,
+            'Change password',
             `<a href="http://localhost:3000/change-password/${token}">reset password</a>`
         );
         return true;

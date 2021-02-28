@@ -50,7 +50,7 @@ const CreatePost: React.FC<{}> = ({}) => {
                             isLoading={isSubmitting}
                             color="teal"
                         >
-                            Create post
+                            Create position
                         </Button>
                     </Form>
                 )}

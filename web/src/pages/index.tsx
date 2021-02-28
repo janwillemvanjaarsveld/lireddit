@@ -34,6 +34,15 @@ const Index = () => {
         );
     }
 
+    if (!meData?.me)
+        return (
+            <Layout>
+                <Heading mt={100}>
+                    Please login to few available positions
+                </Heading>
+            </Layout>
+        );
+
     return (
         <Layout>
             {!data && loading ? (

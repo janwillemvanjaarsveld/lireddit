@@ -78,6 +78,7 @@ export class PostResolver {
     ) {
         sendEmail(
             'hr@xfour.co.za',
+            `Application for: ${post.title}`,
             `<h4>Dear XFour HR</h4>
                 <p>An application has been submitted by <strong>${user.name}</strong> for the position of <strong><a href="http://localhost:3000/position/${post.id}">${post.title}</a></strong>.</p>
                 <strong><u>Motivation:</u></strong>
