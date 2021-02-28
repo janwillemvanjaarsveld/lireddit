@@ -99,6 +99,7 @@ export type MutationLoginArgs = {
 
 
 export type MutationApplyArgs = {
+  motivation: Scalars['String'];
   user: UserApplyPostInput;
   post: ApplyPostInput;
 };
@@ -191,6 +192,7 @@ export type RegularUserResponseFragment = (
 export type ApplyMutationVariables = Exact<{
   user: UserApplyPostInput;
   post: ApplyPostInput;
+  motivation: Scalars['String'];
 }>;
 
 
@@ -393,8 +395,8 @@ export const RegularUserResponseFragmentDoc = gql`
     ${RegularErrorFragmentDoc}
 ${RegularUserFragmentDoc}`;
 export const ApplyDocument = gql`
-    mutation Apply($user: UserApplyPostInput!, $post: ApplyPostInput!) {
-  apply(user: $user, post: $post)
+    mutation Apply($user: UserApplyPostInput!, $post: ApplyPostInput!, $motivation: String!) {
+  apply(user: $user, post: $post, motivation: $motivation)
 }
     `;
 export type ApplyMutationFn = Apollo.MutationFunction<ApplyMutation, ApplyMutationVariables>;
@@ -414,6 +416,7 @@ export type ApplyMutationFn = Apollo.MutationFunction<ApplyMutation, ApplyMutati
  *   variables: {
  *      user: // value for 'user'
  *      post: // value for 'post'
+ *      motivation: // value for 'motivation'
  *   },
  * });
  */

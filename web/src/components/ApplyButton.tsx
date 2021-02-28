@@ -17,7 +17,14 @@ export const ApplyButton: React.FC<ApplyButtonProps> = ({ post, user }) => {
         <Button
             colorScheme="green"
             onClick={async () => {
-                await apply({ variables: { post, user } });
+                const motivation = prompt(
+                    'Please add a short motivation of why you are the best candidate'
+                );
+                if (!motivation)
+                    return alert(
+                        'You cannot apply for a position without a motivation'
+                    );
+                await apply({ variables: { post, user, motivation } });
                 alert('Succesfully applied for the position');
             }}
         >

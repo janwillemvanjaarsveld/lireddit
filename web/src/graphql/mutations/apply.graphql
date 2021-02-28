@@ -1,3 +1,7 @@
-mutation Apply($user: UserApplyPostInput!, $post: ApplyPostInput!) {
-    apply(user: $user, post: $post)
+mutation Apply(
+    $user: UserApplyPostInput!
+    $post: ApplyPostInput!
+    $motivation: String!
+) {
+    apply(user: $user, post: $post, motivation: $motivation)
 }

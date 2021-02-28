@@ -73,14 +73,17 @@ export class PostResolver {
     @Mutation(() => Boolean)
     apply(
         @Arg('post') post: ApplyPostInput,
-        @Arg('user') user: UserApplyPostInput
+        @Arg('user') user: UserApplyPostInput,
+        @Arg('motivation') motivation: string
     ) {
         sendEmail(
             'hr@xfour.co.za',
             `<h4>Dear XFour HR</h4>
                 <p>An application has been submitted by <strong>${user.username}</strong> for the position of <strong><a href="http://localhost:3000/post/${post.id}">${post.title}</a></strong>.</p>
+                <strong><u>Motivation:</u></strong>
+                <p>${motivation}</p>
                 <p>Regards,</p>
-                <p>Internal Job Hub</p>`
+                <p>XFour Career Hub</p>`
         );
         return true;
     }
