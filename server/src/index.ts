@@ -60,7 +60,7 @@ const main = async () => {
                 secure: __prod__, // cookie only works in https
 
                 // if errors with cookies
-                // domain: __prod__ ? '.domain.com' : undefined
+                // domain: __prod__ ? '.domain.com' : undefined,
             },
             secret: process.env.SESSION_SECRET,
             resave: false,
